@@ -2,7 +2,7 @@
 
 #### A RESTful framework for Go
 
-Sleepy is a micro-framework for building RESTful APIs.
+GOso is a micro-framework for building RESTful APIs.
 
 ```go
 package main
@@ -24,7 +24,7 @@ func (item Item) Get(values url.Values, headers http.Header) (int, interface{}, 
 func main() {
     item := new(Item)
 
-    api := sleepy.NewAPI()
+    api := goso.NewAPI()
     api.AddResource(item, "/items")
     api.Start(3000)
 }
