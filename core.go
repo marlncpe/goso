@@ -5,6 +5,7 @@ import (
   "net/url"
   "encoding/json"
   "fmt"
+  "os"
 )
 
 const (
@@ -13,6 +14,13 @@ const (
   PUT = "PUT"
   DELETE = "DELETE"
   )
+
+type Configuration struct {
+    Name    string
+    Version string
+    Port    string
+    Status  string
+}
 
 type Resource interface {
   Get(values url.Values) (int, interface{})
@@ -87,7 +95,15 @@ func (api *API) AddResource(resource Resource, path string) {
   http.HandleFunc(path, api.requestHandler(resource))
 }
 
-func (api *API) Start(port int){
-  portString := fmt.Sprintf(":%d", port)
-  http.ListenAndServe(portString, nil)
+func Run(route string){
+  file, _ := os.Open(route)
+  decoder := json.NewDecoder(file)
+  configuration := Configuration{}
+  err := decoder.Decode(&configuration)
+  if err != nil {
+    fmt.Println("error:", err)
+  }
+  port := fmt.Sprint(":",configuration.Port)
+  fmt.Println(configuration.Name,"funciona en el puerto: ",configuration.Port)
+  http.ListenAndServe(port, nil)
 }
