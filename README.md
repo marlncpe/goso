@@ -26,7 +26,7 @@ func main() {
 
     api := sleepy.NewAPI()
     api.AddResource(item, "/items")
-    api.Start(3000)
+    Goso.Run(ConfigRoute)
 }
 ```
 
